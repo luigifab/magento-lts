@@ -33,7 +33,6 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -73,17 +72,22 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         if ($this->getCategory()->getId()) {
             $this->setDefaultFilter(array('in_category'=>1));
         }
+
+        $store = (int) $this->getRequest()->getParam('store', 0);
         $collection = Mage::getModel('catalog/product')->getCollection()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('sku')
+            ->addStoreFilter($store)
             ->addAttributeToSelect('price')
-            ->addStoreFilter($this->getRequest()->getParam('store'))
             ->joinField('position',
                 'catalog/category_product',
                 'position',
                 'product_id=entity_id',
                 'category_id='.(int) $this->getRequest()->getParam('id', 0),
-                'left');
+                'left')
+            ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'left', $store)
+            ->joinAttribute('price', 'catalog_product/price', 'entity_id', null, 'left', $store)
+            ->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'left', $store)
+            ->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'left', $store);
+
         $this->setCollection($collection);
 
         if ($this->getCategory()->getProductsReadonly()) {
@@ -126,10 +130,24 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         ));
         $this->addColumn('price', array(
             'header'    => Mage::helper('catalog')->__('Price'),
-            'type'  => 'currency',
+            'type'      => 'currency',
             'width'     => '1',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
+        ));
+        $this->addColumn('visibility', array(
+            'header'    => Mage::helper('catalog')->__('Visibility'),
+            'width'     => '70',
+            'index'     => 'visibility',
+            'type'      => 'options',
+            'options'   => Mage::getModel('catalog/product_visibility')->getOptionArray()
+        ));
+        $this->addColumn('status', array(
+            'header'    => Mage::helper('catalog')->__('Status'),
+            'width'     => '70',
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'   => Mage::getSingleton('catalog/product_status')->getOptionArray()
         ));
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
@@ -145,7 +163,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current' => true, 'store' => (int) $this->getRequest()->getParam('store', 0)));
     }
 
     protected function _getSelectedProducts()
@@ -157,6 +175,4 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         }
         return $products;
     }
-
 }
-
