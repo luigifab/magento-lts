@@ -405,6 +405,11 @@ Ext.onReady(function()
 
 function addNew(url, isRoot)
 {
+    if (!tree.currentNodeId) {
+        alert("<?php echo Mage::helper('core')->jsQuoteEscape($this->__('Please select a parent category before add new one.')) ?>");
+        return;
+    }
+
     if (isRoot) {
         tree.currentNodeId = tree.root.id;
     }
