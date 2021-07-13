@@ -113,21 +113,25 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
                 'index'     => 'entity_id'
             ));
         }
+
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
+
         $this->addColumn('name', array(
             'header'    => Mage::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
+
         $this->addColumn('sku', array(
             'header'    => Mage::helper('catalog')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
+
         $this->addColumn('price', array(
             'header'    => Mage::helper('catalog')->__('Price'),
             'type'      => 'currency',
@@ -135,6 +139,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
+
         $this->addColumn('visibility', array(
             'header'    => Mage::helper('catalog')->__('Visibility'),
             'width'     => '70',
@@ -142,6 +147,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'type'      => 'options',
             'options'   => Mage::getModel('catalog/product_visibility')->getOptionArray()
         ));
+
         $this->addColumn('status', array(
             'header'    => Mage::helper('catalog')->__('Status'),
             'width'     => '70',
@@ -149,6 +155,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'type'      => 'options',
             'options'   => Mage::getSingleton('catalog/product_status')->getOptionArray()
         ));
+
         $this->addColumn('position', array(
             'header'    => Mage::helper('catalog')->__('Position'),
             'width'     => '1',
@@ -156,6 +163,28 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'index'     => 'position',
             'editable'  => !$this->getCategory()->getProductsReadonly()
             //'renderer'  => 'adminhtml/widget_grid_column_renderer_input'
+        ));
+
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('catalog')->__('Action'),
+            'type'      => 'action',
+            'getter'    => 'getId',
+            'actions'   => array(
+                array(
+                    'caption' => Mage::helper('catalog')->__('Edit'),
+                    'url'     => array(
+                        'base' => '*/catalog_product/edit',
+                        'params' =>  array(
+                            'store' => (int) $this->getRequest()->getParam('store', 0),
+                            'popup' => 1
+                        )
+                    ),
+                    'field'   => 'id',
+                    'onclick' => 'superProduct.createPopup(this.href);return false;'
+                )
+            ),
+            'filter'    => false,
+            'sortable'  => false
         ));
 
         return parent::_prepareColumns();
