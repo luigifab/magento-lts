@@ -15,20 +15,20 @@
  */
 
 
-/* tooltip-0.2.js - Small tooltip library on top of Prototype 
- * by Jonathan Weiss <jw@innerewut.de> distributed under the BSD license. 
+/* tooltip-0.2.js - Small tooltip library on top of Prototype
+ * by Jonathan Weiss <jw@innerewut.de> distributed under the BSD license.
  *
- * This tooltip library works in two modes. If it gets a valid DOM element 
- * or DOM id as an argument it uses this element as the tooltip. This 
+ * This tooltip library works in two modes. If it gets a valid DOM element
+ * or DOM id as an argument it uses this element as the tooltip. This
  * element will be placed (and shown) near the mouse pointer when a trigger-
  * element is moused-over.
  * If it gets only a text as an argument instead of a DOM id or DOM element
  * it will create a div with the classname 'tooltip' that holds the given text.
- * This newly created div will be used as the tooltip. This is usefull if you 
+ * This newly created div will be used as the tooltip. This is usefull if you
  * want to use tooltip.js to create popups out of title attributes.
- * 
  *
- * Usage: 
+ *
+ * Usage:
  *   <script src="/javascripts/prototype.js" type="text/javascript"></script>
  *   <script src="/javascripts/tooltip.js" type="text/javascript"></script>
  *   <script type="text/javascript">
@@ -47,16 +47,15 @@
  *        node.removeAttribute("title");
  *      });
  *    });
- *    
+ *
  *   </script>
- * 
+ *
  * Now whenever you trigger a mouseOver on the `trigger` element, the tooltip element will
- * be shown. On o mouseOut the tooltip disappears. 
- * 
+ * be shown. On o mouseOut the tooltip disappears.
+ *
  * Example:
- * 
+ *
  *   <script src="/javascripts/prototype.js" type="text/javascript"></script>
- *   <script src="/javascripts/scriptaculous.js" type="text/javascript"></script>
  *   <script src="/javascripts/tooltip.js" type="text/javascript"></script>
  *
  *   <div id='tooltip' style="display:none; margin: 5px; background-color: red;">
@@ -92,12 +91,12 @@ Tooltip.prototype = {
     this.element      = $(element);
 
     this.options      = options;
-    
+
     // use the supplied tooltip element or create our own div
     if($(tool_tip)) {
       this.tool_tip = $(tool_tip);
     } else {
-      this.tool_tip = $(document.createElement("div")); 
+      this.tool_tip = $(document.createElement("div"));
       document.body.appendChild(this.tool_tip);
       this.tool_tip.addClassName("tooltip");
       this.tool_tip.appendChild(document.createTextNode(tool_tip));
@@ -130,12 +129,12 @@ Tooltip.prototype = {
 	  // get Mouse position
     var mouse_x = Event.pointerX(event);
 	  var mouse_y = Event.pointerY(event);
-	
+
 	  // decide if wee need to switch sides for the tooltip
 	  var dimensions = Element.getDimensions( this.tool_tip );
 	  var element_width = dimensions.width;
 	  var element_height = dimensions.height;
-	
+
 	  if ( (element_width + mouse_x) >= ( this.getWindowWidth() - this.options.min_distance_x) ){ // too big for X
 		  mouse_x = mouse_x - element_width;
 		  // apply min_distance to make sure that the mouse is not on the tool-tip
@@ -143,26 +142,26 @@ Tooltip.prototype = {
 	  } else {
 		  mouse_x = mouse_x + this.options.min_distance_x;
 	  }
-	
+
 	  if ( (element_height + mouse_y) >= ( this.getWindowHeight() - this.options.min_distance_y) ){ // too big for Y
 		  mouse_y = mouse_y - element_height;
 	    // apply min_distance to make sure that the mouse is not on the tool-tip
 		  mouse_y = mouse_y - this.options.min_distance_y;
 	  } else {
 		  mouse_y = mouse_y + this.options.min_distance_y;
-	  } 
-	
+	  }
+
 	  // now set the right styles
 	  this.setStyles(mouse_x, mouse_y);
   },
-	
-		
+
+
   showTooltip: function(event) {
     Event.stop(event);
     this.moveTooltip(event);
 	  new Element.show(this.tool_tip);
   },
-  
+
   setStyles: function(x, y){
     // set the right styles to position the tool tip
 	  Element.setStyle(this.tool_tip, { position:'absolute',
@@ -170,15 +169,15 @@ Tooltip.prototype = {
 	 								    left:x + this.options.delta_x + "px",
 									    zindex:this.options.zindex
 	 								  });
-	
+
 	  // apply default theme if wanted
 	  if (this.options.default_css){
 	  	  Element.setStyle(this.tool_tip, { margin:this.options.margin,
 		 		  						                    padding:this.options.padding,
 		                                      backgroundColor:this.options.backgroundColor,
 										                      zindex:this.options.zindex
-		 								    });	
-	  }	
+		 								    });
+	  }
   },
 
   hideTooltip: function(event){
@@ -192,9 +191,9 @@ Tooltip.prototype = {
     } else {
 		  innerHeight = window.innerHeight;
     }
-    return innerHeight;	
+    return innerHeight;
   },
- 
+
   getWindowWidth: function(){
     var innerWidth;
 	  if (navigator.appVersion.indexOf('MSIE')>0) {
@@ -202,7 +201,7 @@ Tooltip.prototype = {
     } else {
 		  innerWidth = window.innerWidth;
     }
-    return innerWidth;	
+    return innerWidth;
   }
 
 }

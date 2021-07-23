@@ -435,10 +435,11 @@ Product.Configurable.prototype = {
             }.bind(this));
         if (!this.readonly) {
             // Creation of sortable for attributes sorting
-            Sortable.create(this.container, {
-                handle :'attribute-name-container',
-                onUpdate :this.updatePositions.bind(this)
-            });
+            // @todo
+            //Sortable.create(this.container, {
+            //    handle :'attribute-name-container',
+            //    onUpdate :this.updatePositions.bind(this)
+            //});
         }
         this.updateSaveInput();
     },
