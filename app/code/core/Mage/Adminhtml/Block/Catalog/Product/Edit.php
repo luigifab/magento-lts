@@ -59,7 +59,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                         'label'     => Mage::helper('catalog')->__('Back'),
                         'onclick'   => 'setLocation(\''
                             . $this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
-                        'class' => 'back'
+                        'class'     => 'back'
+                    ))
+            );
+        } else if (!$this->getRequest()->getParam('popin')) {
+            $this->setChild('back_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Close Window'),
+                        'onclick'   => 'window.close()',
+                        'class'     => 'cancel'
                     ))
             );
         } else {
@@ -67,8 +76,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Close Window'),
-                        'onclick'   => 'window.close()',
-                        'class' => 'cancel'
+                        'onclick'   => 'window.parent.superProduct.closePopup()',
+                        'class'     => 'cancel'
                     ))
             );
         }

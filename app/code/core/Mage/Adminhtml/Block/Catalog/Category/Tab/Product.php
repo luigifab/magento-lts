@@ -176,7 +176,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
                         'base' => '*/catalog_product/edit',
                         'params' =>  array(
                             'store' => (int) $this->getRequest()->getParam('store', 0),
-                            'popup' => 1
+                            'popup' => 1,
+                            'popin' => 1
                         )
                     ),
                     'field'   => 'id',

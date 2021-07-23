@@ -483,13 +483,26 @@ Product.Configurable.prototype = {
         this.createPopup(this.createNormalUrl);
     },
     createPopup : function(url) {
-        if (this.win && !this.win.closed) {
-            this.win.close();
+        if (url.indexOf('popin/1') > 0) {
+            if (this.win) {
+                this.win.remove();
+            }
+            this.win = document.createElement('div');
+            this.win.setAttribute('id', 'edit-popin');
+            this.win.innerHTML = '<iframe src="' + url +'" class="loading" onload="this.classList.remove(\'loading\');"></iframe>';
+            document.querySelector('body').appendChild(this.win);
+        } else {
+            if (this.win && !this.win.closed) {
+                this.win.close();
+            }
+            this.win = window.open(url, '', 'width=1000,height=700,resizable=1,scrollbars=1');
+            this.win.focus();
         }
-
-        this.win = window.open(url, '',
-                'width=1000,height=700,resizable=1,scrollbars=1');
-        this.win.focus();
+    },
+    closePopup : function() {
+        if (this.win) {
+            this.win.remove();
+        }
     },
     registerProduct : function(grid, element, checked) {
         if (checked) {
