@@ -544,14 +544,12 @@ Product.Configurable.prototype = {
         return newObj;
     },
     rowClick : function(grid, event) {
-        var trElement = Event.findElement(event, 'tr');
+        var tdElement = Event.findElement(event, 'td');
         var isInput = Event.element(event).tagName.toUpperCase() == 'INPUT';
-
-        if ($(Event.findElement(event, 'td')).down('a')) {
+        if (tdElement.down('a')) {
             return;
         }
-
-        if (trElement) {
+        if (tdElement) {
             var checkbox = $(trElement).down('input');
             if (checkbox && !checkbox.disabled) {
                 var checked = isInput ? checkbox.checked : !checkbox.checked;
