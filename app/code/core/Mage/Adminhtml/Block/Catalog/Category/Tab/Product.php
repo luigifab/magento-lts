@@ -180,7 +180,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
                         )
                     ),
                     'field'   => 'id',
-                    'onclick' => 'superProduct.createPopup(this.href);return false;'
+                    'onclick' => 'superProduct = new Product.EditWin('.$this->getJsObjectName().'); superProduct.createPopup(this.href); return false;'
                 )
             ),
             'filter'    => false,

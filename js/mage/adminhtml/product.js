@@ -1000,23 +1000,8 @@ Product.EditWin = Class.create(Product.Configurable, {
     createAttributes : function() {},
     updateSaveInput : function() {},
     updateSimpleForm : function() {},
-    updateValues : function() {
-        var uniqueAttributeValues = $H( {});
-        /* Collect unique attributes */
-        this.links.each( function(pair) {
-            for ( var i = 0, length = pair.value.length; i < length; i++) {
-                var attribute = pair.value[i];
-                if (uniqueAttributeValues.keys()
-                        .indexOf(attribute.attribute_id) == -1) {
-                    uniqueAttributeValues.set(attribute.attribute_id, $H( {}));
-                }
-                uniqueAttributeValues.get(attribute.attribute_id).set(
-                        attribute.value_index, attribute);
-            }
-        });
-        this.updateSaveInput();
-        this.updateSimpleForm();
-    }
+    updateValues : function() {}
+    //updateProduct : function() { ... this.grid.reload(null); }
 });
 
 var onInitDisableFieldsList = [];

@@ -32,7 +32,7 @@
             <?php echo $this->getAddSubButtonHtml() ?>
         <?php endif ?>
     </div>
-    <?php echo $this->getStoreSwitcherHtml();?>
+    <?php echo $this->getStoreSwitcherHtml() ?>
     <div class="tree-actions">
         <?php if($this->getRoot()): ?>
             <?php //echo $this->getCollapseButtonHtml() ?>
@@ -394,7 +394,7 @@ Ext.onReady(function()
 
     defaultLoadTreeParams = {
         parameters : {
-            text        : '<?php echo Mage::helper('core')->jsQuoteEscape(htmlentities($this->getRoot()->getName())) ?>',
+            text        : "<?php echo Mage::helper('core')->jsQuoteEscape(htmlentities($this->getRoot()->getName())) ?>",
             draggable   : false,
             allowDrop   : <?php if ($this->getRoot()->getIsVisible()): ?>true<?php else: ?>false<?php endif ?>,
             id          : <?php echo (int) $this->getRoot()->getId() ?>,
